@@ -82,6 +82,24 @@ router.post('/', buyController.registerBuy);
 
 /**
  * @swagger
+ * /api/Buys:
+ *  get:
+ *    summary: Get all buys
+ *    tags: [Buying]
+ *    responses:
+ *      200:
+ *        description: Buys retrieved successfully
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Buying'
+ */
+router.get('/', buyController.listBuys);
+
+/**
+ * @swagger
  * /api/Buys/{id}:
  *  put:
  *    summary: Update a buy by ID
@@ -131,5 +149,30 @@ router.put('/:id', buyController.updateBuy);
  *        description: Buy not found
  */
 router.delete('/:id', buyController.deleteBuy);
+
+/**
+ * @swagger
+ * /api/Buys/{id}:
+ *  get:
+ *    summary: Get a buy by ID
+ *    tags: [Buying]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: integer
+ *        required: true
+ *        description: Buy ID
+ *    responses:
+ *      200:
+ *        description: Buy found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Buying'
+ *      404:
+ *        description: Buy not found
+ */
+router.get('/:id', buyController.showBuy);
 
 module.exports = router;
