@@ -67,6 +67,23 @@ exports.registerBuy = async (req, res) => {
     }
 };
 
+exports.listBuys = async (req, res) => {
+    try {
+        // Lectura del archivo json con los pedidos
+        const buys = await readData();
+    
+        // Respuesta con los pedidos
+        res.json({
+            msg: 'Pedidos obtenidos con éxito.',
+            data: buys,
+        })
+    } catch (error) {
+        // Respuesta error en busqueda de pedidos
+        console.error(err);
+        res.status(500).json({ msg: 'Error al procesar la solicitud.' });
+    }
+};
+
 exports.updateBuy = async (req, res) => {
     try {
         // Recepción del ID del pedido
@@ -139,3 +156,25 @@ exports.deleteBuy = async (req, res) => {
         res.status(500).json({ msg: 'Error al procesar la solicitud.' });
     }
 };
+
+exports.showBuy = async (req, res) => {
+    // Recepción del ID del pedido
+    const id = req.params.id;
+    // Lectura del archivo json con los pedidos
+    const buys = await readData();
+
+    // Busqueda del pedido con parseInt para asegurar el tipo correcto en el id
+    const buy = buys.find((buy) => buy.id == parseInt(id));
+
+    // Evaluación de la existencia del pedido y respuesta correspondiente
+    if (buy) {
+        res.json({
+            msg: 'Pedido obtenido con éxito.',
+            data: buy,
+        });
+    } else {
+        res.status(404).json({
+            msg: 'Pedido no encontrado.',
+        });
+    }
+}
