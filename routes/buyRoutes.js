@@ -111,4 +111,25 @@ router.post('/', buyController.registerBuy);
  */
 router.put('/:id', buyController.updateBuy);
 
+/**
+ * @swagger
+ * /api/Buys/{id}:
+ *  delete:
+ *    summary: Delete a buy by ID
+ *    tags: [Buying]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: integer
+ *        required: true
+ *        description: Buy ID
+ *    responses:
+ *      200:
+ *        description: Buy deleted successfully
+ *      404:
+ *        description: Buy not found
+ */
+router.delete('/:id', buyController.deleteBuy);
+
 module.exports = router;
