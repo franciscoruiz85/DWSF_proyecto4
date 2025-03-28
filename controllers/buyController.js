@@ -157,6 +157,51 @@ exports.deleteBuy = async (req, res) => {
     }
 };
 
+exports.listBuysBy = async (req, res) => {
+    try {
+        // Recepción de filtros a utilizar
+        const { client_id, date, quantity, sku, status } = req.query;
+        // Lectura del archivo json con los pedidos
+        const buys = await readData()
+    
+        // Busqueda de pedidos con los filtros solicitados
+        const filteredBuys = buys.filter((buy) => {
+            if (client_id && buy.client_id !== client_id) {
+                return false;
+            }
+            if (date && buy.delivery_date !== date) {
+                return false;
+            }
+            if (quantity && buy.quantity !== parseInt(quantity)) {
+                return false;
+            }
+            if (sku && buy.sku !== sku) {
+                return false;
+            }
+            if (status && buy.status !== parseInt(status)) {
+                return false;
+            }
+            return true;
+        })
+    
+        // Evaluación de la existencia del pedido y respuesta correspondiente
+        if (filteredBuys.length > 0) {
+            res.json({
+                msg: 'Pedidos filtrados con éxito.',
+                data: filteredBuys,
+            });
+        } else {
+            res.status(404).json({
+                msg: 'No se encontro pedidos para ese filtro.',
+            });
+        }
+    } catch (error) {
+        // Respuesta error en proceso de filtro de pedidos
+        console.error(err);
+        res.status(500).json({ msg: 'Error al procesar la solicitud.' });
+    }
+};
+
 exports.showBuy = async (req, res) => {
     // Recepción del ID del pedido
     const id = req.params.id;
