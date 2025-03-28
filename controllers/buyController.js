@@ -161,7 +161,6 @@ exports.listBuysBy = async (req, res) => {
     try {
         // Recepción de filtros a utilizar
         const { client_id, date, quantity, sku, status } = req.query;
-    
         // Lectura del archivo json con los pedidos
         const buys = await readData()
     
