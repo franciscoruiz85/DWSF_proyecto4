@@ -80,4 +80,35 @@ const buyController = require('../controllers/buyController');
  */
 router.post('/', buyController.registerBuy);
 
+/**
+ * @swagger
+ * /api/Buys/{id}:
+ *  put:
+ *    summary: Update a buy by ID
+ *    tags: [Buying]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: integer
+ *        required: true
+ *        description: Buy ID
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Buying'
+ *    responses:
+ *      200:
+ *        description: Buy updated successfully
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Buying'
+ *      404:
+ *        description: Buy not found
+ */
+router.put('/:id', buyController.updateBuy);
+
 module.exports = router;

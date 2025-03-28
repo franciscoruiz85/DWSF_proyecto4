@@ -66,3 +66,41 @@ exports.registerBuy = async (req, res) => {
         res.status(500).json({ msg: 'Error al procesar la solicitud.' });
     }
 };
+
+exports.updateBuy = async (req, res) => {
+    try {
+        // Recepción del ID del pedido
+        const id = req.params.id;
+        // Recepción de los nuevos datos para el pedido
+        const updatedData = req.body;
+
+        // Lectura del archivo json con los pedidos
+        const buys = await readData();
+
+        // Busqueda del pedido con parseInt para asegurar el tipo correcto en el id
+        const buyIndex = buys.findIndex(buy => buy.id == parseInt(id));
+
+        // Evaluación de la existencia del pedido y respuesta correspondiente
+        if (buyIndex === -1) {
+            res.status(404).json({
+                msg: 'Pedido no encontrado.',
+            });
+        } else {
+            // Actualización de datos del pedido
+            buys[buyIndex] = { ...buys[buyIndex], ...updatedData };
+    
+            // Guardamos los datos actualizados
+            await saveData(buys);
+    
+            // Respuesta con el pedido actualizado
+            res.status(200).json({
+                msg: 'Pedido actualizado con éxito.',
+                data: buys[buyIndex],
+            });
+        }
+    } catch (err) {
+        // Respuesta error en proceso de actualización del pedido
+        console.error(err);
+        res.status(500).json({ msg: 'Error al procesar la solicitud.' });
+    }
+};
