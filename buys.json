@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "buyer_name": "John Doe",
+    "client_id": "12345678-9",
+    "address": "123 Main St., Springfield, IL",
+    "sku": "123456",
+    "quantity": 2,
+    "delivery_date": "2025-04-01",
+    "status": 1
+  }
+]
