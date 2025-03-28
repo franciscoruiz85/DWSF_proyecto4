@@ -152,6 +152,52 @@ router.delete('/:id', buyController.deleteBuy);
 
 /**
  * @swagger
+ * /api/Buys/listBuysBy:
+ *  get:
+ *    summary: Get all buys by a specific parameter
+ *    tags: [Buying]
+ *    parameters:
+ *      - in: query
+ *        name: client_id
+ *        schema:
+ *          type: string
+ *        description: Client ID
+ *      - in: query
+ *        name: date
+ *        schema:
+ *          type: string
+ *        description: Delivery date
+ *      - in: query
+ *        name: quantity
+ *        schema:
+ *          type: integer
+ *        description: Quantity of products
+ *      - in: query
+ *        name: sku
+ *        schema:
+ *          type: string
+ *        description: SKU of product
+ *      - in: query
+ *        name: status
+ *        schema:
+ *          type: integer
+ *        description: Buy status
+ *    responses:
+ *      200:
+ *        description: Buys found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Buying'
+ *      404:
+ *        description: Buys not found
+ */
+router.get('/listBuysBy', buyController.listBuysBy);
+
+/**
+ * @swagger
  * /api/Buys/{id}:
  *  get:
  *    summary: Get a buy by ID
