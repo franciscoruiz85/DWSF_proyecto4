@@ -104,3 +104,38 @@ exports.updateBuy = async (req, res) => {
         res.status(500).json({ msg: 'Error al procesar la solicitud.' });
     }
 };
+
+exports.deleteBuy = async (req, res) => {
+    try {
+        // Recepción del ID del pedido
+        const id = req.params.id;
+
+        // Lectura del archivo json con los pedidos
+        const buys = await readData();
+
+        // Busqueda del pedido con parseInt para asegurar el tipo correcto en el id
+        const buyIndex = buys.findIndex(buy => buy.id == parseInt(id));
+
+        // Evaluación de la existencia del pedido y respuesta correspondiente
+        if (buyIndex === -1) {
+            res.status(404).json({
+                msg: 'Pedido no encontrado.',
+            });
+        } else {
+            // Eliminar el pedido
+            buys.splice(buyIndex, 1);
+    
+            // Guardamos los datos actualizados
+            await saveData(buys);
+    
+            // Respuesta con el pedido actualizado
+            res.status(200).json({
+                msg: 'Pedido eliminado con éxito.'
+            });
+        }
+    } catch (error) {
+        // Respuesta error en proceso de eliminación del pedido
+        console.error(err);
+        res.status(500).json({ msg: 'Error al procesar la solicitud.' });
+    }
+};
